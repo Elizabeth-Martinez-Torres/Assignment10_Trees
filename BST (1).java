@@ -146,25 +146,25 @@ public class BST {
 
     public String toString() {
         //description of the tree
-        final String EMPTY = "The tree is empty.";
-        final String NODES_FMT = "There are %d nodes in the tree.\n";
-        final String ROOT_FMT = "The tree is rooted at %s.\n";
-        final String SHORTEST_FMT = "The shortest is %s with %d characters.\n";
-        final String LONGEST_FMT = "The longest is %s with %d characters.";
+        final String Empty = "The tree is empty.";
+        final String NodeNumbers = "Number of nodes: %d \n";
+        final String RootNode = " The rooted at:  %s.\n";
+        final String ShortestNode = "The shortest Node : %s  Number of characters: %d \n";
+        final String LongestNode = "The longest Node: %s  Number of characters: %d ";
         //used for final string representation
         StringBuilder sb = new StringBuilder();
         //if tree is empty put empty
         if (this.root == null) {
-            sb.append(EMPTY);
+            sb.append(Empty);
         } else {
             //tree is not empty, check how many nodes there are 
-            sb.append(String.format(NODES_FMT, this.numberOfNodes));
+            sb.append(String.format(NodeNumbers, this.numberOfNodes));
             //get the word in root
-            sb.append(String.format(ROOT_FMT, this.root.getWord()));
+            sb.append(String.format(RootNode, this.root.getWord()));
             //get shortest word of the tree with length
-            sb.append(String.format(SHORTEST_FMT, this.shortest, this.shortest.length()));
+            sb.append(String.format(ShortestNode, this.shortest, this.shortest.length()));
             //get longest word of the tree with length
-            sb.append(String.format(LONGEST_FMT, this.longest, this.longest.length()));
+            sb.append(String.format(LongestNode, this.longest, this.longest.length()));
         }
         return sb.toString();
     } // method toString
