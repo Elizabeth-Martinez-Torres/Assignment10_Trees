@@ -122,15 +122,144 @@ public class BST {
      **************************************************************************/
 
     public boolean contains(String target) {
-        return false;
+        //Initialize found to false... changes throughout the if loop
+        boolean found = false;
+        //checks to see if tree and target string not empty
+        if (this.root != null && target != null) {
+            //starts in the root node
+            TreeNode cursor = this.root;
+            //traverse the tree while found and cursor are no null
+            while (!found && cursor != null) {
+                //node word equals target
+                found = cursor.getWord().equals(target);
+                //if less than child moves to the current node
+                if (target.compareTo(cursor.getWord()) < 0) {
+                    cursor = cursor.getLeft();
+                } else {
+                    cursor = cursor.getRight();
+                }
+            }
+        }
+        //reurns resul 
+        return found;
     } // method contains
 
     public String toString() {
-        return "WRITE SOME GOOD CODE";
+        //description of the tree
+        final String EMPTY = "The tree is empty.";
+        final String NODES_FMT = "There are %d nodes in the tree.\n";
+        final String ROOT_FMT = "The tree is rooted at %s.\n";
+        final String SHORTEST_FMT = "The shortest is %s with %d characters.\n";
+        final String LONGEST_FMT = "The longest is %s with %d characters.";
+        //used for final string representation
+        StringBuilder sb = new StringBuilder();
+        //if tree is empty put empty
+        if (this.root == null) {
+            sb.append(EMPTY);
+        } else {
+            //tree is not empty, check how many nodes there are 
+            sb.append(String.format(NODES_FMT, this.numberOfNodes));
+            //get the word in root
+            sb.append(String.format(ROOT_FMT, this.root.getWord()));
+            //get shortest word of the tree with length
+            sb.append(String.format(SHORTEST_FMT, this.shortest, this.shortest.length()));
+            //get longest word of the tree with length
+            sb.append(String.format(LONGEST_FMT, this.longest, this.longest.length()));
+        }
+        return sb.toString();
     } // method toString
 
     public TreeNode remove(String target, TreeNode belowNode) {
-        return null;
+        // Initialize removed to null
+    TreeNode removed = null;
+
+    if (belowNode != null) {
+        //locate node
+        TreeNode cursor = belowNode;
+        //parent to null if empty
+        TreeNode parent = null;
+        //initialize found to false 
+        boolean found = false;
+
+        // locate node to remove
+        while (cursor != null && !found) {
+            //update parent
+            parent = cursor;
+            //see if current node is equal/the target
+            found = target.equals(cursor.getWord());
+            //if not found
+            if (!found) {
+                //move left or right until found
+                if (target.compareTo(cursor.getWord()) < 0) {
+                    //move to left child
+                    cursor = cursor.getLeft();
+                    //move to right child
+                } else {
+                    cursor = cursor.getRight();
+                }
+            }
+        }
+
+        // found node and remove it
+        if (found) {
+            //node to remove
+            removed = cursor; 
+            //find how many children there are using the Treenode method
+            int childrenCount = cursor.countChildren();
+            // node has 0 children
+            if (childrenCount == 0) {
+                //cursor is a left child of parent
+                if (parent.getLeft() == cursor) {
+                    //parent becomes null
+                    parent.setLeft(null);
+                } else {
+                    //otherwise set parent right to null
+                    parent.setRight(null);
+                }
+            }
+            // node has 1 child
+            else if (childrenCount == 1) {
+                //check if the child is lef or righ
+                TreeNode child = (cursor.getLeft() != null) ? cursor.getLeft() : cursor.getRight();
+                //if child is left, replace its child
+                if (parent.getLeft() == cursor) {
+                    parent.setLeft(child);
+                } else {
+                    //replace it right
+                    parent.setRight(child);
+                }
+            }
+            // Node has 2 children
+            else {
+                // find small.. nextParent to cursor
+                TreeNode previousParent = cursor;
+                //cursor receives right
+                TreeNode nextParent = cursor.getRight();
+                //Traverse to find left child in the right subtree
+                while (nextParent.getLeft() != null) {
+                    //update parent successor's
+                    previousParent = nextParent;
+                    //move to left child
+                     nextParent= nextParent.getLeft();
+                }
+                
+                // Copy successor value to cursor
+                cursor.setWord(nextParent.getWord());
+
+                // Remove successor node
+                if (previousParent.getLeft() == nextParent) {
+                    //bypass successor
+                    previousParent.setLeft(nextParent.getRight()); 
+                } else {
+                    //bypass successor again
+                    previousParent.setRight(nextParent.getRight()); 
+                }
+            }
+            // Update the number of nodes
+            this.numberOfNodes--;
+        }
+    }
+    return removed;
     } // method remove
 
     /******************************* Accessors *******************************/
