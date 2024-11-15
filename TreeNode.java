@@ -74,5 +74,15 @@ public class TreeNode implements Comparable<TreeNode> {
     public void setWord(String word) {
         this.word = word;
     }
+     public int countChildren() {
+        int count = 0;
+        if (this.hasLeft()) {
+            count++;
+        }
+        if (this.hasRight()) {
+            count++;
+        }
+        return count;
+    } // method countChildren
 
 } // class TreeNode
