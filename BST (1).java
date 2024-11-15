@@ -140,7 +140,7 @@ public class BST {
                 }
             }
         }
-        //reurns resul 
+        //returns result 
         return found;
     } // method contains
 
